@@ -1,0 +1,14 @@
+.username {
+  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+input[type="text"] {
+  font-size: 3rem;
+}
+
+.login-button {
+  font-size: 3rem;
+}
