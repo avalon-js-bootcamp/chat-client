@@ -5,7 +5,7 @@ export default function Login({ onLogin }) {
   const [authorName, setAuthorName] = useState("");
 
   function handleLogin() {
-    const user = document.querySelector(".userName-input").value;
+    const user = document.querySelector(".username-input").value;
     setAuthorName(user);
     onLogin(user);
   }
@@ -17,7 +17,7 @@ export default function Login({ onLogin }) {
           type="text"
           maxLength="255"
           required
-          className="userName-input"
+          className="username-input"
           placeholder="User Name"
         />
         <div className="login-button">

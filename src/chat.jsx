@@ -16,21 +16,14 @@ export default function Chat({ author }) {
   }, []);
 
   const entirePage = messages.map((m) => {
-    if (author === m.author) {
-      return (
-        <div className="message author">
-          <div className="user-author">{m.author}</div>
-          <div className="user-message">{m.message}</div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="message">
-          <div className="user-author">{m.author}</div>
-          <div className="user-message">{m.message}</div>
-        </div>
-      );
-    }
+    const isAuthor = author === m.author;
+    const className = isAuthor ? "message author" : "message";
+    return (
+      <div className={className} key={m.id}>
+        <div className="user-author">{m.author}</div>
+        <div className="user-message">{m.message}</div>
+      </div>
+    );
   });
 
   async function handleMessage() {
@@ -39,15 +32,19 @@ export default function Chat({ author }) {
       author: author,
       message: newMessage,
     };
-    await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    await fetchMessages();
+    try {
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      await fetchMessages();
+    } catch (error) {
+      alert("Network error. Please try again later.");
+    }
   }
 
   return (
@@ -58,11 +55,10 @@ export default function Chat({ author }) {
           maxLength="255"
           required
           className="message-input"
-          placeholder="put your message here"
+          placeholder="Put your message here"
         />
       </form>
       <div className="message-button">
-        {" "}
         <button onClick={fetchMessages}>Refresh</button>
         <button onClick={handleMessage}>Submit</button>
       </div>

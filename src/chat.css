@@ -33,7 +33,7 @@
 .message-button {
   display: flex;
   flex-direction: row;
-  gap: 200px;
-  justify-content: center;
+  justify-content: space-between;
   font-size: 2rem;
+  margin: 10px 50px 20px;
 }
