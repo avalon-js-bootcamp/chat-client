@@ -1,3 +1,16 @@
 body {
     background-color: #f5f5f5;
   }
+
+#yourMessage {
+  background-color: blue;
+  color: white;
+  border-radius: 7px;
+  padding: 3px;
+  margin: 2px;
+  text-align: right;
+}
+
+button {
+  margin: 2px;
+}
