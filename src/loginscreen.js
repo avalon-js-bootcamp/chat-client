@@ -8,7 +8,6 @@ function loginScreen () {
     content.appendChild(loginContent);
 
     const form = document.createElement("form");
-    // const username = document.createElement("input");
     loginContent.appendChild(form);
     form.appendChild(username);
     username.placeholder = "Username";
@@ -19,14 +18,48 @@ function loginScreen () {
     loginContent.appendChild(loginButton);
 
     loginButton.addEventListener("click", function(){
-        console.log(username.value);
+
         content.removeChild(loginContent);
+        getPreviousMessages();
         messagePage();
+
     })
-    
+
+    async function getPreviousMessages(){
+        for (let i = 0; i < 8; i++) {
+         const message = await fetch("https://chat.avalon.build/chat")
+         .then((response) => response.json());
+     
+         const listMessages = await message[i];
+
+         const messageContent = document.getElementById("message-content");
+         const author = document.createElement("div");
+         const previousMessage = document.createElement("div");
+         author.setAttribute("id", "author");
+         previousMessage.setAttribute("id", "previousMessage");
+         messageContent.appendChild(author);
+         messageContent.appendChild(previousMessage);
+         author.innerHTML = listMessages.author;
+         previousMessage.innerHTML = listMessages.message;
+
+         if (listMessages.author === username.value){author.innerHTML = "you said..."};
+     
+     /*
+         Object.keys(listMessages)
+         .forEach (function eachKey(key){
+            const trial = (`${key}: ${listMessages[key]}`);
+            const author = trial.author;
+         });
+     */
+     }
+     }
+     
 }
 
 function messagePage(){ 
+    const messageBox = document.createElement("input");
+    messageBox.placeholder = "Enter message here";
+    content.appendChild(messageBox);
 
     const refreshButton = document.createElement("button");
     refreshButton.textContent = "Refresh";
@@ -39,19 +72,14 @@ function messagePage(){
     submitButton.textContent = "Submit";
     content.appendChild(submitButton);
 
-    const previousMessage = document.createElement("div");
-    content.appendChild(previousMessage);
-    //previousMessage.textContent = "TEST";
-
-    const messageBox = document.createElement("input");
-    messageBox.placeholder = "Enter message here";
-    content.appendChild(messageBox);
-
     submitButton.addEventListener("click",function(){
         const messageContent = document.getElementById("message-content");
+        const messageContainer = document.createElement("div");
         const yourMessage = document.createElement("div");
+        messageContainer.setAttribute("id", "messageContainer");
         yourMessage.setAttribute("id", "yourMessage");
-        messageContent.appendChild(yourMessage);
+        messageContent.appendChild(messageContainer);
+        messageContainer.appendChild(yourMessage);
         yourMessage.innerHTML += messageBox.value;
         postMessage();
     })
@@ -69,8 +97,6 @@ function messagePage(){
             })
         })
         }
-
-
     
 }
 
